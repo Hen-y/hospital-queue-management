@@ -1,2 +1,2 @@
-# hospital-queue-management-
-Hospital Patient Queue &amp; Assessment Coordination System
+# hospital-queue-management
+MediQueue is a Java desktop application designed to digitise patient queue management in hospitals across Zambia. It helps receptionists, nurses, and doctors coordinate patient flow in real time. From registration and triage through to doctor consultation, replacing manual, paper-based tracking with a shared, role-based system that reduces wait-time uncertainty and improves coordination among hospital staff.
