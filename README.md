@@ -20,6 +20,7 @@ hospital-queue-management/
 ├── Documentation/
 │   ├── MediQueueProjectProposal.docx
 │   └── MediQueue Week1 Meeting Minutes.docx
+<<<<<<< HEAD
 ├── database/
 │   └── schema.sql             # run once in SSMS to create the four tables below
 └── src/
@@ -30,20 +31,31 @@ hospital-queue-management/
         └── java/
             └── mediqueue/
                 ├── Main.java              # application entry point - wires everything together
+=======
+└── src/
+    └── main/
+        └── java/
+            └── mediqueue/
+                ├── Main.java              # application entry point
+>>>>>>> 90648492df373e9b72511803c7830c1f1f1a2197
                 │
                 ├── model/                 # plain data classes, no logic
                 │   ├── Patient.java
                 │   ├── StaffAccount.java
                 │   ├── Role.java
                 │   ├── PatientStatus.java
+<<<<<<< HEAD
                 │   ├── AvailabilityStatus.java
                 │   ├── DoctorAvailability.java
+=======
+>>>>>>> 90648492df373e9b72511803c7830c1f1f1a2197
                 │   └── QueueEntry.java
                 │
                 ├── dao/                    # the only place JDBC/SQL code lives
                 │   ├── DatabaseConnection.java
                 │   ├── PatientDAO.java
                 │   ├── StaffDAO.java
+<<<<<<< HEAD
                 │   ├── DoctorAvailabilityDAO.java
                 │   └── QueueDAO.java
                 │
@@ -53,6 +65,14 @@ hospital-queue-management/
                 │   ├── QueueService.java
                 │   ├── ReportService.java
                 │   └── DailySummary.java
+=======
+                │   └── QueueDAO.java
+                │
+                ├── service/                # business rules; talks to dao/, knows nothing about the UI
+                │   ├── AuthService.java
+                │   ├── QueueService.java
+                │   └── ReportService.java
+>>>>>>> 90648492df373e9b72511803c7830c1f1f1a2197
                 │
                 ├── ui/                     # JavaFX screens; talk to service/, never touch the database directly
                 │   ├── LoginView.java
@@ -65,6 +85,7 @@ hospital-queue-management/
                     └── PasswordUtil.java   # password hashing/salting helper
 ```
 
+<<<<<<< HEAD
 ## Setting up a local database connection
 
 Each team member needs their own connection to the shared SQL Server database:
@@ -77,6 +98,9 @@ Each team member needs their own connection to the shared SQL Server database:
 ## First staff account
 
 The application has no built in "first user" - every account is created through the Administrator Dashboard's "Create Staff Account" screen, which itself requires being logged in as an administrator. To get started on a brand new database, insert one administrator account directly in SSMS, using a password hash produced by `PasswordUtil.hash(String)` (a short throwaway `main` method that prints the result of calling it is enough), then log in with that account and create every other account normally from the Administrator Dashboard.
+=======
+Every file above currently exists but is intentionally empty - this is the project skeleton, not the implementation. Code gets added feature by feature as the team builds it out.
+>>>>>>> 90648492df373e9b72511803c7830c1f1f1a2197
 
 ## How the parts talk to each other
 
@@ -108,6 +132,7 @@ mvn javafx:run
 
 Maven and the `javafx-maven-plugin` handle the JavaFX module-path setup automatically, so this should work the same way on every team member's machine without extra configuration.
 
+<<<<<<< HEAD
 ## How this was verified so far
 
 The full codebase (every class in `model`, `util`, `dao`, `service`, and `ui`, plus `Main`) compiles cleanly together with no errors. `PasswordUtil` was additionally exercised end to end with a small throwaway test: a correct password verifies, a wrong password is rejected, and hashing the same password twice produces two different stored hashes, as expected from a random salt.
@@ -119,6 +144,8 @@ Two things could **not** be tested in the environment this was built in, and sho
 
 If either of those turns up an error, that is expected to be the kind of thing this note is warning about, not a sign that the code was never checked at all.
 
+=======
+>>>>>>> 90648492df373e9b72511803c7830c1f1f1a2197
 ## Team
 
 - **Henry Chewetu** - created and set up the GitHub repository
