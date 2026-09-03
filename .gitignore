@@ -1,0 +1,23 @@
+# Maven build output
+target/
+
+# Compiled Java classes (in case anyone builds outside Maven too)
+*.class
+
+# IDE project files
+.idea/
+*.iml
+.vscode/
+.settings/
+.classpath
+.project
+nbproject/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Local database connection settings - never commit real credentials
+application.properties
+db.properties
+*.env

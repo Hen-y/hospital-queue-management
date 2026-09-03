@@ -1,0 +1,12 @@
+# Copy this file to db.properties (same folder) and fill in your own values.
+#
+# db.properties is listed in .gitignore on purpose: it holds a real
+# database password, and that must never be committed to GitHub. Every
+# team member keeps their own local copy, pointing at whichever SQL
+# Server instance they are using (the shared central one, or a local
+# SQL Server / SSMS install for their own testing).
+
+# Example: db.url=jdbc:sqlserver://localhost:1433;databaseName=MediQueue;encrypt=true;trustServerCertificate=true
+db.url=jdbc:sqlserver://SERVER_ADDRESS:1433;databaseName=MediQueue;encrypt=true;trustServerCertificate=true
+db.username=mediqueue_app
+db.password=CHANGE_ME
