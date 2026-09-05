@@ -189,6 +189,6 @@ What has not yet been exercised is the day to day feature set itself (registerin
 
 ## Team
 
-- **Henry Chewetu** - created and set up the GitHub repository
-- **Alexander Bwalya** - manages project documentation
+- **Henry Chewetu** - created and set up the GitHub repository and testing
+- **Alexander Bwalya** - manages project documentation and QA
 - **Crispin Libimba** - main developer
