@@ -47,7 +47,7 @@ A patient isn't an object — there's no `Patient` class — so one patient's da
 1. Make sure a Java runtime is installed (`java -version` should print something).
 2. From inside `hospital-queue-management`, compile and run:
    ```
-   javac src/main/MediQueueConsole.java -d out
+   javac src/MediQueueConsole.java -d out
    java -cp out MediQueueConsole
    ```
 3. Follow the on-screen numbered menu. All data exists only for that run — closing the program clears it, which is expected.
