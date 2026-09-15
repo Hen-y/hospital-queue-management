@@ -21,3 +21,5 @@ Thumbs.db
 application.properties
 db.properties
 *.env
+
+.fake
