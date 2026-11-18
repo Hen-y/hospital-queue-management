@@ -96,8 +96,9 @@ public class ConsoleMenu {
 
     /**
      * Registers a new patient: asks for their name and reason for
-     * visit, then adds them with status Waiting. Refuses blank input,
-     * and refuses to register once the queue is full.
+     * visit, then adds them with status Waiting. Refuses blank input
+     * (Patient itself rejects a blank name or reason), and refuses to
+     * register once the queue is full.
      */
     private void registerPatient() {
         if (queue.isFull()) {
@@ -108,20 +109,17 @@ public class ConsoleMenu {
         System.out.print("Enter patient full name: ");
         String name = input.readLine().trim();
 
-        if (name.isEmpty()) {
-            System.out.println("Name cannot be blank. Registration cancelled.");
-            return;
-        }
-
         System.out.print("Enter reason for visit: ");
         String reason = input.readLine().trim();
 
-        if (reason.isEmpty()) {
-            System.out.println("Reason for visit cannot be blank. Registration cancelled.");
+        Patient patient;
+        try {
+            patient = new Patient(name, reason);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage() + " Registration cancelled.");
             return;
         }
 
-        Patient patient = new Patient(name, reason);
         int position = queue.add(patient);
 
         System.out.println(name + " registered at position " + position
@@ -151,7 +149,7 @@ public class ConsoleMenu {
         }
 
         Patient patient = queue.getAt(position);
-        String doctor = patient.hasDoctor() ? patient.getAssignedDoctor() : "Not yet assigned";
+        String doctor = patient.hasDoctor() ? patient.getAssignedDoctor().getName() : "Not yet assigned";
 
         System.out.println("Name: " + patient.getName());
         System.out.println("Reason for visit: " + patient.getReason());
@@ -240,7 +238,11 @@ public class ConsoleMenu {
                 + (patient.isUrgent() ? "marked urgent." : "no longer marked urgent."));
     }
 
-    /** Assigns, or reassigns, a doctor's name to a chosen patient. */
+    /**
+     * Assigns, or reassigns, a doctor to a chosen patient. The name the
+     * user types becomes a Doctor object; a blank name is rejected by
+     * the Doctor (through Person) before any patient is changed.
+     */
     private void assignDoctor() {
         int position = askForPosition("Enter position");
         if (position == -1) {
@@ -250,13 +252,14 @@ public class ConsoleMenu {
         System.out.print("Enter doctor's name: ");
         String doctor = input.readLine().trim();
 
-        if (doctor.isEmpty()) {
+        Patient patient = queue.getAt(position);
+        try {
+            patient.assignDoctor(new Doctor(doctor));
+        } catch (IllegalArgumentException e) {
             System.out.println("Doctor's name cannot be blank. Assignment cancelled.");
             return;
         }
 
-        Patient patient = queue.getAt(position);
-        patient.assignDoctor(doctor);
         System.out.println(doctor + " assigned to " + patient.getName() + ".");
     }
 

@@ -2,10 +2,11 @@
  * Patient - one patient in the outpatient queue, and the rules for
  * how their status changes.
  *
- * A patient's status is always exactly one of the five words in
- * STATUS_ORDER, and only ever moves forward one stage at a time.
+ * A Patient IS-A Person: the name is inherited from Person. A patient's
+ * status is always exactly one of the five words in STATUS_ORDER, and
+ * only ever moves forward one stage at a time.
  */
-public class Patient {
+public class Patient extends Person {
 
     /** The five stages a patient moves through, in order. */
     public static final String[] STATUS_ORDER = {
@@ -15,30 +16,34 @@ public class Patient {
     private static final String STATUS_WITH_DOCTOR = "With Doctor";
     private static final String STATUS_COMPLETED = "Completed";
 
-    private final String name;
     private final String reason;
     private String status;
     private boolean urgent;
-    private String assignedDoctor;
+    private Doctor assignedDoctor; // null until a doctor is assigned
     private long consultationStart;
 
-    /** Creates a new patient with status Waiting, not urgent, and no doctor yet. */
+    /**
+     * Creates a new patient with status Waiting, not urgent, and no
+     * doctor yet. Rejects a blank name (checked by Person) or a blank
+     * reason here, at the point the patient is created.
+     *
+     * @throws IllegalArgumentException if name or reason is null or blank
+     */
     public Patient(String name, String reason) {
-        this.name = name;
+        super(name); // the parent constructor runs first and checks the name
+        if (reason == null || reason.isBlank()) {
+            throw new IllegalArgumentException("Reason for visit cannot be blank.");
+        }
         this.reason = reason;
         this.status = STATUS_ORDER[0];
         this.urgent = false;
-        this.assignedDoctor = "";
+        this.assignedDoctor = null;
         this.consultationStart = 0;
     }
 
     // ---------------------------------------------------------------
-    // Getters
+    // Getters (getName is inherited from Person)
     // ---------------------------------------------------------------
-
-    public String getName() {
-        return name;
-    }
 
     public String getReason() {
         return reason;
@@ -52,18 +57,25 @@ public class Patient {
         return urgent;
     }
 
-    public String getAssignedDoctor() {
+    /** The assigned doctor, or null if none has been assigned yet. */
+    public Doctor getAssignedDoctor() {
         return assignedDoctor;
     }
 
     /** True if a doctor has been assigned to this patient. */
     public boolean hasDoctor() {
-        return !assignedDoctor.isEmpty();
+        return assignedDoctor != null;
     }
 
     /** True once the patient has reached the final status. */
     public boolean isCompleted() {
         return STATUS_COMPLETED.equals(status);
+    }
+
+    /** Overrides Person.describe, reusing it and adding the patient's status. */
+    @Override
+    public String describe() {
+        return super.describe() + " (" + status + ")";
     }
 
     // ---------------------------------------------------------------
@@ -75,9 +87,16 @@ public class Patient {
         urgent = !urgent;
     }
 
-    /** Assigns, or reassigns, a doctor to this patient. */
-    public void assignDoctor(String doctorName) {
-        assignedDoctor = doctorName;
+    /**
+     * Assigns, or reassigns, a doctor to this patient.
+     *
+     * @throws IllegalArgumentException if doctor is null
+     */
+    public void assignDoctor(Doctor doctor) {
+        if (doctor == null) {
+            throw new IllegalArgumentException("A doctor is required.");
+        }
+        assignedDoctor = doctor;
     }
 
     /**
