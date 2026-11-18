@@ -6,7 +6,7 @@
  * status is always exactly one of the five words in STATUS_ORDER, and
  * only ever moves forward one stage at a time.
  */
-public class Patient extends Person {
+public class Patient extends Person implements Reportable {
 
     /** The five stages a patient moves through, in order. */
     public static final String[] STATUS_ORDER = {
@@ -70,6 +70,22 @@ public class Patient extends Person {
     /** True once the patient has reached the final status. */
     public boolean isCompleted() {
         return STATUS_COMPLETED.equals(status);
+    }
+
+    @Override
+    public String getRole() {
+        return "Patient";
+    }
+
+    /**
+     * One line for a combined listing: the role, name, reason, status,
+     * urgent flag, and assigned doctor (if any).
+     */
+    @Override
+    public String summarize() {
+        String doctor = hasDoctor() ? assignedDoctor.getName() : "none";
+        return getRole() + ": " + getName() + " | " + reason + " | " + status
+                + " | urgent: " + (urgent ? "yes" : "no") + " | doctor: " + doctor;
     }
 
     /** Overrides Person.describe, reusing it and adding the patient's status. */

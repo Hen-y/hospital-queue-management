@@ -49,6 +49,7 @@ public class ConsoleMenu {
         System.out.println("7. Mark or unmark a patient urgent");
         System.out.println("8. Assign a doctor");
         System.out.println("9. View the daily report");
+        System.out.println("10. View patients and assigned doctors");
         System.out.println("0. Exit");
     }
 
@@ -81,6 +82,9 @@ public class ConsoleMenu {
                 break;
             case 9:
                 showReport();
+                break;
+            case 10:
+                showPatientsAndDoctors();
                 break;
             case 0:
                 break; // exiting is handled by the loop in run
@@ -281,6 +285,51 @@ public class ConsoleMenu {
         System.out.println("Shortest consultation: " + report.getShortest() + " seconds");
         System.out.println("Longest consultation: " + report.getLongest() + " seconds");
         System.out.printf("Average consultation: %.1f seconds%n", report.getAverage());
+    }
+
+    /**
+     * Prints one combined listing of every patient in the queue followed
+     * by every doctor assigned to them (each doctor listed once). Both
+     * kinds are held in one Reportable array, so the same summarize()
+     * call works on each without checking which it is.
+     */
+    private void showPatientsAndDoctors() {
+        if (queue.isEmpty()) {
+            System.out.println("The queue is empty.");
+            return;
+        }
+
+        Reportable[] items = new Reportable[queue.size() * 2];
+        int count = 0;
+        int patientCount = queue.size();
+
+        for (int position = 1; position <= patientCount; position++) {
+            items[count] = queue.getAt(position);
+            count++;
+        }
+
+        for (int position = 1; position <= patientCount; position++) {
+            Patient patient = queue.getAt(position);
+            if (patient.hasDoctor() && !alreadyListed(items, count, patient.getAssignedDoctor())) {
+                items[count] = patient.getAssignedDoctor();
+                count++;
+            }
+        }
+
+        for (int i = 0; i < count; i++) {
+            System.out.println(items[i].summarize());
+        }
+    }
+
+    /** True if a doctor with the same name (not case sensitive) is already in the listing. */
+    private boolean alreadyListed(Reportable[] items, int count, Doctor doctor) {
+        for (int i = 0; i < count; i++) {
+            if (items[i] instanceof Doctor
+                    && ((Doctor) items[i]).getName().equalsIgnoreCase(doctor.getName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     // ---------------------------------------------------------------
